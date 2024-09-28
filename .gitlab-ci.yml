@@ -3,7 +3,7 @@ stages:
     - test
 
 variables:
-    IMAGE_NAME: consumer_service
+    IMAGE_NAME: publisher_service
     DOCKER_DRIVER: overlay2
     IMAGE_TAG: $CI_COMMIT_SHA
 
