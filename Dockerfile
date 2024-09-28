@@ -21,4 +21,4 @@ RUN ls -la
 EXPOSE 8080
 
 
-ENTRYPOINT ["dotnet", "WebApi.dll"]
+ENTRYPOINT ["dotnet", "WebAPI.dll"]
