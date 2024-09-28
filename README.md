@@ -1,8 +1,10 @@
 # registration-publisher-service
 
 ```
-cd existing_repo
-git remote add origin http://192.168.140.139:8888/root/registration-publisher-service.git
+git clone http://192.168.140.139:8888/root/registration-publisher-service.git
+(root:qwe123rty)
 git branch -M main
-git push -uf origin main
+git pull origin main
+...
+git push -u origin main
 ```
