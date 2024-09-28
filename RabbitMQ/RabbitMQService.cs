@@ -9,7 +9,7 @@ public class RabbitMQService : IRabbitMQService
 
     public RabbitMQService()
 	{
-		var factory = new ConnectionFactory() { HostName = "192.168.32.133" }; // Сервис RabbitMQ
+		var factory = new ConnectionFactory() { HostName = "192.168.140.137" }; // Сервис RabbitMQ
 		_connection = factory.CreateConnection();
 		_channel = _connection.CreateModel();
 		_channel.QueueDeclare(
