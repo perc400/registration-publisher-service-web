@@ -16,7 +16,6 @@ WORKDIR /app
 
 COPY --from=build /out .
 
-RUN ls -la
 
 EXPOSE 8080
 
