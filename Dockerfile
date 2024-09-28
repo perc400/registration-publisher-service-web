@@ -13,4 +13,4 @@ COPY --from=build /out .
 
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "WebApi.dll"]
+ENTRYPOINT ["dotnet", "obj/Debug/net8.0/WebApi.dll"]
