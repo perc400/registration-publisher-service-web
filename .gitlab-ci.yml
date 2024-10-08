@@ -1,11 +1,15 @@
 stages:
     - build
+    - push
     - test
 
 variables:
     IMAGE_NAME: publisher_service
     DOCKER_DRIVER: overlay2
-    IMAGE_TAG: $CI_COMMIT_SHA
+    IMAGE_TAG: latest
+    REGISTRY: 192.168.140.136:5000
+    REGISTRY_USER: admin
+    REGISTRY_PASSWORD: admin
 
 build image:
     tags:
@@ -15,9 +19,22 @@ build image:
         paths:
             - .docker/cache
     script:
-        - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} -t ${IMAGE_NAME}:latest .
+        - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
         - docker image prune -f
     when: manual
+    allow_failure: false
+
+push image:
+    tags:
+        - pushing
+    stage: push
+    needs:
+        - build image
+    script:
+        - echo "$REGISTRY_PASSWORD" | docker login $REGISTRY -u "$REGISTRY_USER" --password-stdin
+        - docker tag ${IMAGE_NAME}:${IMAGE_TAG} $REGISTRY/${IMAGE_NAME}:${IMAGE_TAG}
+        - docker push $REGISTRY/${IMAGE_NAME}:${IMAGE_TAG}
+        - docker rmi $REGISTRY/${IMAGE_NAME}:${IMAGE_TAG}
     allow_failure: false
 
 test run:
@@ -27,6 +44,5 @@ test run:
     needs:
         - build image
     script:
-#        - docker run --rm -d --name ${IMAGE_NAME} ${IMAGE_NAME}
-        - docker run -d -p 7070:8080 --name ${IMAGE_NAME} ${IMAGE_NAME}
+        - docker run -d -p 7070:8080 --name ${IMAGE_NAME} $REGISTRY/${IMAGE_NAME}:${IMAGE_TAG}
     allow_failure: false
