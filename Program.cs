@@ -3,7 +3,7 @@ using WebAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 string connectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION")
-			?? builder.Configuration.GetConnectionString("PostgreSqlProvider");
+		?? builder.Configuration.GetConnectionString("PostgreSqlProvider");
 builder.Services.AddDbContext<WebApiContext>(options =>
             options.UseNpgsql(connectionString)
         );
