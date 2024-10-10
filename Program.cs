@@ -10,6 +10,8 @@ builder.Services.AddDbContext<WebApiContext>(options =>
 builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
 builder.Services.AddControllers();
 
+System.Console.WriteLine($"Connection string: {connectionString}")
+
 var app = builder.Build();
 app.UseRouting();
 
