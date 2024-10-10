@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+string connectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION")
+			?? builder.Configuration.GetConnectionString("PostgreSqlProvider");
 builder.Services.AddDbContext<WebApiContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlProvider"))
+            options.UseNpgsql(connectionString)
         );
 builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
 builder.Services.AddControllers();
