@@ -2,6 +2,7 @@ stages:
     - build
     - push
     - test
+    - acceptance_tests
 
 variables:
     IMAGE_NAME: publisher_service
@@ -45,5 +46,5 @@ test run:
         - build image
     script:
         - echo "$REGISTRY_PASSWORD" | docker login $REGISTRY -u "$REGISTRY_USER" --password-stdin
-        - docker run -d -p 7070:8080 --name ${IMAGE_NAME} $REGISTRY/${IMAGE_NAME}:${IMAGE_TAG}
+        - docker run -d --network apps_network -p 7070:8080 --name ${IMAGE_NAME} -e POSTGRES_CONNECTION="Host=postgresql;Port=5432;Database=usersdb;Username=api;Password=api;Pooling=true;" -e RABBITMQ_HOST="rabbitmq" $REGISTRY/${IMAGE_NAME}:${IMAGE_TAG}
     allow_failure: false
